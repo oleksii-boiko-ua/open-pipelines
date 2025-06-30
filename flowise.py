@@ -444,8 +444,15 @@ async def chat_completions(request: Request):
 
     model_id = body.get("model", "client_services_768")
     result = pipeline.pipe(user_message, model_id, messages, body)
+    content = ""
     if hasattr(result, "__iter__") and not isinstance(result, str):
-        result = "".join([str(chunk) for chunk in result if chunk])
+        for chunk in result:
+            if chunk and str(chunk).strip():
+                content = str(chunk)
+                break
+    else:
+        content = result
+    print("FINAL CONTENT:", content)
     return JSONResponse({
         "id": "chatcmpl-123",
         "object": "chat.completion",
@@ -456,7 +463,7 @@ async def chat_completions(request: Request):
                 "index": 0,
                 "message": {
                     "role": "assistant",
-                    "content": result
+                    "content": content
                 },
                 "finish_reason": "stop"
             }
