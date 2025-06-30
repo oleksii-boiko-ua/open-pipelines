@@ -445,7 +445,7 @@ async def chat_completions(request: Request):
     model_id = body.get("model", "client_services_768")
     result = pipeline.pipe(user_message, model_id, messages, body)
     if hasattr(result, "__iter__") and not isinstance(result, str):
-        result = "".join(list(result))
+        result = "".join([str(chunk) for chunk in result if chunk])
     return JSONResponse({
         "id": "chatcmpl-123",
         "object": "chat.completion",
