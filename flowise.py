@@ -446,10 +446,12 @@ async def chat_completions(request: Request):
     result = pipeline.pipe(user_message, model_id, messages, body)
     content = ""
     if hasattr(result, "__iter__") and not isinstance(result, str):
+        chunks = []
         for chunk in result:
             print("YIELDED CHUNK:", repr(chunk))
-            content = str(chunk)
-            break
+            if chunk and str(chunk).strip():
+                chunks.append(str(chunk))
+        content = "".join(chunks)
     else:
         content = result
     print("FINAL CONTENT:", content)
