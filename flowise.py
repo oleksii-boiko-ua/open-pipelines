@@ -421,6 +421,8 @@ class Pipeline:
                 # If not JSON, return the raw text
                 yield response.text
                 
+            logger.info(f"RESULT: {result}")
+                
         except Exception as e:
             error_msg = f"Error calling FlowiseAI: {str(e)}"
             logger.error(error_msg)
