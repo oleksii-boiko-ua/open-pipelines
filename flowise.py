@@ -448,9 +448,8 @@ async def chat_completions(request: Request):
     if hasattr(result, "__iter__") and not isinstance(result, str):
         for chunk in result:
             print("YIELDED CHUNK:", repr(chunk))
-            if chunk and str(chunk).strip():
-                content = str(chunk)
-                break
+            content = str(chunk)
+            break
     else:
         content = result
     print("FINAL CONTENT:", content)
