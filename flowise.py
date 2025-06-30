@@ -213,7 +213,7 @@ class Pipeline:
         logger.debug(f"pipe:{self.name}")
         
         dt_start = datetime.now()
-        streaming = body.get("stream", False)
+        streaming = body.get("stream", True)
         logger.warning(f"Stream: {streaming}")
         context = ""
         
